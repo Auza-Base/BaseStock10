@@ -140,15 +140,15 @@ const rewardAssetAddresses = {
 };
 const appNotice = document.querySelector('#app-notice');
 const appNoticeMessage = document.querySelector('#app-notice-message');
-// The Privy bundle loads after this app shell. Keep the connect button useful
-// while it initializes, and surface a clear message if a browser blocks it.
+// The Privy bundle loads after this app shell. A click during startup should
+// wait briefly and then open Privy, not interrupt the person with a popup.
 window.BaseStockWallet = window.BaseStockWallet || {
   ready: false,
   getSession: () => null,
-  open: () => alert('Wallet connection is still loading. Please try again shortly.')
+  open: () => {}
 };
 window.addEventListener('error', event => {
-  if (!String(event.filename || '').includes('privy-wallet')) return;
+  if (!/bs10-connect|privy-wallet/.test(String(event.filename || ''))) return;
   window.BaseStockWallet = {
     ready: true,
     getSession: () => null,
@@ -213,6 +213,13 @@ let activeProvider;
 let connectedAddress;
 let walletRevision = 0;
 let removeWalletListeners = () => {};
+let walletLoadingStartedAt = 0;
+let walletRetryScheduled = false;
+
+function setDisconnectedWalletButtonText(label = 'Connect wallet') {
+  if (connectedAddress) return;
+  document.querySelectorAll('.wallet-button').forEach(button => { button.textContent = label; });
+}
 
 function resetWalletPortfolio() {
   walletRevision++;
@@ -257,8 +264,30 @@ function setWalletSession(session) {
 }
 
 function openWalletDialog() {
-  if (!window.BaseStockWallet?.ready) return alert('Wallet connection is still loading. Please try again shortly.');
-  window.BaseStockWallet.open();
+  if (window.BaseStockWallet?.ready) {
+    walletLoadingStartedAt = 0;
+    walletRetryScheduled = false;
+    setDisconnectedWalletButtonText();
+    window.BaseStockWallet.open();
+    return;
+  }
+  if (!walletLoadingStartedAt) walletLoadingStartedAt = Date.now();
+  setDisconnectedWalletButtonText('Opening wallet…');
+  // Allow slower networks to finish loading Privy without making the user
+  // click again. If a browser blocks it entirely, return quietly to Connect.
+  if (Date.now() - walletLoadingStartedAt > 10000) {
+    walletLoadingStartedAt = 0;
+    walletRetryScheduled = false;
+    setDisconnectedWalletButtonText();
+    return;
+  }
+  if (!walletRetryScheduled) {
+    walletRetryScheduled = true;
+    setTimeout(() => {
+      walletRetryScheduled = false;
+      openWalletDialog();
+    }, 150);
+  }
 }
 
 async function connectWallet(refreshAssets = true) {
