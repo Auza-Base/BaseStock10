@@ -8,7 +8,12 @@ document.querySelector('.hero-notice').outerHTML = '<div class="hero-tags"><span
 document.querySelector('.hero-actions').innerHTML = '<a class="button" href="#deposit">Start your portfolio ↗</a><a class="text-link" href="#portfolio">Explore the basket →</a>';
 document.querySelector('.hero .network').textContent = 'Your wallet. Your approvals. Your portfolio.';
 document.querySelector('.hero-banner')?.remove();
-document.querySelector('.hero-coming')?.remove();
+const heroLaunch = document.querySelector('.hero-coming');
+if (heroLaunch) {
+  heroLaunch.setAttribute('aria-label', 'Contract address announcement at 9 AM EST today on Feel.cash');
+  heroLaunch.querySelector('b').textContent = 'CA · 9 AM EST today';
+  heroLaunch.querySelector('small').textContent = 'Published on Feel.cash';
+}
 document.querySelector('.nav nav').innerHTML = '<a href="#portfolio">Portfolio</a><a href="#deposit">Invest</a><a href="#leaderboard">Community</a><a href="#rewards">Rewards</a><a href="#faq">Help</a>';
 document.querySelector('.balance-card .muted').insertAdjacentHTML('afterend', '<div class="portfolio-art" aria-hidden="true"><span>YOUR NEXT CHAPTER</span><div class="art-orbit"><i>↗</i></div><small>Built around the companies<br>shaping what’s next.</small></div>');
 document.querySelector('.hero').insertAdjacentHTML('afterend', '<section class="shell platform-strip" aria-label="Platform overview"><div><span>01 / ACCESS</span><strong>One USDC deposit</strong><p>A simple starting point for your portfolio.</p></div><div><span>02 / OWNERSHIP</span><strong>Connected to your wallet</strong><p>You review and approve each transaction.</p></div><div><span>03 / VISIBILITY</span><strong>Holdings in one place</strong><p>Track value, assets, and available withdrawals.</p></div></section>');
@@ -242,6 +247,7 @@ document.querySelector('[data-page="rewards"]').innerHTML = 'BaseStock10 Token';
 panels.rewards.querySelector('.workspace-heading h1').textContent = 'BaseStock10 Token';
 panels.rewards.querySelector('.workspace-heading .eyebrow').textContent = 'COMING SOON ON BASE';
 panels.rewards.querySelector('.workspace-heading p:last-child').textContent = 'A planned token that shares fee revenue with token holders and stock investors.';
+panels.rewards.querySelector('.workspace-heading').insertAdjacentHTML('beforeend', '<div class="feel-launch" aria-label="Contract address announcement at 9 AM EST today on Feel.cash"><img src="https://feel.cash/assets/_charms/assets/images/feel-mark.ec4197c94f8e816521a6d2f2d7f7fb6d.webp" alt="Feel.cash" /><span><b>CA · 9 AM EST today</b><small>Published on Feel.cash</small></span></div>');
 document.querySelector('.rewards .eyebrow').textContent = 'HOW THE REWARDS WILL WORK';
 document.querySelector('.rewards h2').innerHTML = 'We receive a 1% fee.<br>We share it with you.';
 document.querySelector('.rewards-copy > p:not(.eyebrow)').innerHTML = 'Our plan is to receive a <b>1% fee</b> and put that fee revenue into a reward pool. The pool is shared between people who hold <b>$BaseStock</b> and people who invest in the <b>stock portfolio</b>.';
