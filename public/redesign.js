@@ -347,5 +347,15 @@ hero.querySelector('.lede').textContent = 'Fund one personal Glider portfolio wi
 hero.querySelector('.hero-actions').innerHTML = '<a class="button" href="#deposit">OPEN PORTFOLIO →</a><a class="text-link" href="#portfolio">VIEW THE BASKET</a>';
 hero.querySelector('.network').textContent = 'You control your wallet and approve every transaction.';
 intro.innerHTML = '<div><span>STOCK BASKET</span><strong>8</strong><p>Tokenized stocks in the current strategy</p></div><div><span>CAMPAIGN INCENTIVE</span><strong>10 <small>% APR</small></strong><p>For eligible holdings; campaign terms apply</p></div><div><span>STARTING AMOUNT</span><strong>25 <small>USDC</small></strong><p>Minimum amount to open a portfolio</p></div><div><span>REWARDS</span><strong>PLANNED</strong><p>BaseStock token rewards are not live</p></div>';
+const baseStockTokenAddress = '0x51276d0322421b9a903132b3867bcda2587cfee1';
+const baseStockTokenUrl = `https://basescan.org/token/${baseStockTokenAddress}`;
+document.querySelector('[data-page="rewards"]').textContent = 'BaseStock10 Token';
+panels.rewards.querySelector('.workspace-heading .eyebrow').textContent = 'BASESTOCK10 · LIVE ON BASE';
+panels.rewards.querySelector('.workspace-heading p:last-child').textContent = 'The BaseStock10 token is live on Base. The reward program remains planned until its final rules are published.';
+document.querySelector('.rewards-teaser .soon-pill').textContent = 'TOKEN LIVE ON BASE';
+document.querySelector('.rewards-teaser p').textContent = 'BaseStock10 is live on Base. The proposed reward program is separate and is not live yet.';
+document.querySelector('.rewards .plan-note').textContent = 'BaseStock10 is live on Base. The reward program is planned; final fee mechanics and eligibility rules will be published before rewards begin.';
+document.querySelector('.footer-legal').innerHTML = `Base mainnet · <a href="${baseStockTokenUrl}" target="_blank" rel="noreferrer">BaseStock10 contract: 0x5127…fee1 ↗</a> · Not investment advice.`;
+document.querySelector('.buy-launch').innerHTML = `<p>Eligible BaseStock10 holders may receive ten-stock rewards.</p><small>BaseStock10 is live. Rewards are planned and subject to final eligibility and distribution rules.</small><a href="${baseStockTokenUrl}" target="_blank" rel="noreferrer">VIEW CONTRACT ↗</a><button type="button" disabled aria-label="Buy BaseStock10 link coming soon">BUY BASESTOCK10 — LINK SOON</button>`;
 routeHash();
 })();
