@@ -1,17 +1,18 @@
 // Local visual preview: transaction controls and their handlers remain intact.
 (() => {
+document.body.classList.add('index-preview');
 document.body.insertAdjacentHTML('afterbegin', `<div class="preview-bar"><span>DESIGN PREVIEW <b>Local only</b></span><div><a href="/original/index.html">Current design</a><a href="/" aria-current="page">New design ↗</a></div></div>`);
-document.querySelector('.hero h1').innerHTML = 'Big companies.<br><em>One portfolio.</em>';
-document.querySelector('.hero .eyebrow').textContent = 'ON BASE. IN YOUR CONTROL.';
-document.querySelector('.hero .lede').textContent = 'Start with USDC. Build exposure to eight tokenized stocks through a single Glider portfolio, connected to your wallet.';
-document.querySelector('.hero-notice').outerHTML = '<div class="hero-tags"><span>Base mainnet</span><span>From 25 USDC</span><span>Powered by Glider</span></div>';
-document.querySelector('.hero-actions').innerHTML = '<a class="button" href="#deposit">Start your portfolio ↗</a><a class="text-link" href="#portfolio">Explore the basket →</a>';
-document.querySelector('.hero .network').textContent = 'Your wallet. Your approvals. Your portfolio.';
+document.querySelector('.hero h1').innerHTML = 'One portfolio.<br><em>Eight on-chain stocks.</em>';
+document.querySelector('.hero .eyebrow').textContent = 'BASESTOCK10 · BASE MAINNET';
+document.querySelector('.hero .lede').textContent = 'Fund one personal Glider portfolio with USDC, then follow the Bitwise Mag7x basket from your Base wallet.';
+document.querySelector('.hero-notice').outerHTML = '<div class="hero-tags"><span>8-stock basket</span><span>25 USDC minimum</span><span>Glider on Base</span></div>';
+document.querySelector('.hero-actions').innerHTML = '<a class="button" href="#deposit">OPEN PORTFOLIO →</a><a class="text-link" href="#portfolio">VIEW THE BASKET</a>';
+document.querySelector('.hero .network').textContent = 'You control your wallet and approve every transaction.';
 document.querySelector('.hero-banner')?.remove();
 document.querySelector('.hero-coming')?.remove();
 document.querySelector('.nav nav').innerHTML = '<a href="#portfolio">Portfolio</a><a href="#deposit">Invest</a><a href="#leaderboard">Community</a><a href="#rewards">Rewards</a><a href="#faq">Help</a>';
 document.querySelector('.balance-card .muted').insertAdjacentHTML('afterend', '<div class="portfolio-art" aria-hidden="true"><span>YOUR NEXT CHAPTER</span><div class="art-orbit"><i>↗</i></div><small>Built around the companies<br>shaping what’s next.</small></div>');
-document.querySelector('.hero').insertAdjacentHTML('afterend', '<section class="shell platform-strip" aria-label="Platform overview"><div><span>01 / ACCESS</span><strong>One USDC deposit</strong><p>A simple starting point for your portfolio.</p></div><div><span>02 / OWNERSHIP</span><strong>Connected to your wallet</strong><p>You review and approve each transaction.</p></div><div><span>03 / VISIBILITY</span><strong>Holdings in one place</strong><p>Track value, assets, and available withdrawals.</p></div></section>');
+document.querySelector('.hero').insertAdjacentHTML('afterend', '<section class="shell protocol-strip" aria-label="Strategy metrics"><div><span>STOCK BASKET</span><strong>8</strong><p>Tokenized stocks in the current strategy</p></div><div><span>CAMPAIGN INCENTIVE</span><strong>10<small>% APR</small></strong><p>For eligible holdings; campaign terms apply</p></div><div><span>STARTING AMOUNT</span><strong>25<small> USDC</small></strong><p>Minimum amount to open a portfolio</p></div><div><span>REWARDS</span><strong>PLANNED</strong><p>BaseStock token rewards are not live</p></div></section><section class="shell index-status" aria-label="Portfolio status"><div><p class="eyebrow">PORTFOLIO STATUS</p><h2>Connect once. See the whole basket.</h2><p>After you connect, this dashboard shows your Glider portfolio value, holdings, and assets you can withdraw.</p><a href="#deposit">CONNECT &amp; VIEW PORTFOLIO →</a></div><div class="status-board"><span>PORTFOLIO VALUE</span><strong>—</strong><small>Connect wallet to load live data</small><div><b>USDC</b><b>→</b><b>8 STOCKS</b><b>→</b><b>YOUR WALLET</b></div></div></section>');
 document.querySelector('.trade-heading h2').textContent = 'Your portfolio starts here.';
 document.querySelector('.trade-heading .eyebrow').textContent = 'MAKE YOUR NEXT MOVE';
 document.querySelector('.trade-heading > p:last-child').textContent = 'Deposit USDC or withdraw an available asset. Connect your wallet to get started.';
@@ -32,7 +33,8 @@ const rewards = document.querySelector('.rewards');
 const eligibility = document.querySelector('.reward-eligibility');
 const rewardStocks = document.querySelector('.reward-stocks');
 const faq = document.querySelector('.faq');
-const intro = document.querySelector('.platform-strip');
+const intro = document.querySelector('.protocol-strip');
+const indexStatus = document.querySelector('.index-status');
 document.querySelector('.nav nav').innerHTML = '<button data-page="overview">Overview</button><button data-page="invest">My portfolio</button><button data-page="rewards">Rewards <span>Soon</span></button><button data-page="community">Leaderboard</button>';
 const panels = {};
 for (const name of ['overview', 'invest', 'rewards', 'community']) {
@@ -42,7 +44,7 @@ for (const name of ['overview', 'invest', 'rewards', 'community']) {
   main.append(panel);
   panels[name] = panel;
 }
-panels.overview.append(hero, intro, portfolio, faq);
+panels.overview.append(hero, intro, indexStatus, portfolio, faq);
 panels.invest.innerHTML = '<div class="shell workspace-heading"><div><p class="eyebrow">YOUR INVESTMENT WORKSPACE</p><h1>My portfolio<span>.</span></h1><p>Everything you own. Every move you make. In one place.</p></div><span class="network-pill"><i></i> Base mainnet</span></div><div class="shell investment-layout"><div class="account-column"></div><div class="transaction-column"></div></div><div class="shell positions-slot"></div>';
 panels.invest.querySelector('.account-column').append(balanceCard);
 panels.invest.querySelector('.transaction-column').append(actions);
@@ -62,7 +64,7 @@ hero.querySelector('.hero-actions').innerHTML = '<a class="button" href="#deposi
 hero.querySelector('.network').textContent = 'Start from 25 USDC · Powered by Glider';
 const brands = [['nvidia.com','NVIDIA','NVDA'],['apple.com','Apple','AAPL'],['google.com','Alphabet','GOOGL'],['microsoft.com','Microsoft','MSFT'],['amazon.com','Amazon','AMZN'],['meta.com','Meta','META'],['tesla.com','Tesla','TSLA'],['spacex.com','SpaceX','SPCX']];
 hero.insertAdjacentHTML('beforeend', `<div class="market-art" aria-label="Illustration of tokenized stock access; not a performance chart"><div class="art-heading"><span>GLOBAL COMPANIES. BASE RAILS.</span><span>↗</span></div><div class="company-mosaic">${brands.map(([domain,name,ticker],i)=>`<div class="company-tile tile-${i}"><img src="https://www.google.com/s2/favicons?domain=${domain}&sz=128" alt=""/><span>${name}</span><small>${ticker}</small></div>`).join('')}</div><div class="art-caption"><span class="base-symbol">−</span><div><strong>A familiar world. A new way in.</strong><small>Tokenized equities on Base</small></div><span>↗</span></div></div>`);
-intro.innerHTML = '<div><span>THE STARTING POINT</span><strong>25 <small>USDC</small></strong><p>Minimum investment</p></div><div><span>THE CURRENT BASKET</span><strong>8 <small>stocks</small></strong><p>One Glider portfolio</p></div><div><span>THE NETWORK</span><strong>Base <small>mainnet</small></strong><p>Wallet-approved transactions</p></div><div><span>THE CONTROL</span><strong>You <small>decide</small></strong><p>Deposit, track, and withdraw</p></div>';
+intro.innerHTML = '<div><span>STOCK BASKET</span><strong>8</strong><p>Tokenized stocks in the current strategy</p></div><div><span>CAMPAIGN INCENTIVE</span><strong>10 <small>% APR</small></strong><p>For eligible holdings; campaign terms apply</p></div><div><span>STARTING AMOUNT</span><strong>25 <small>USDC</small></strong><p>Minimum amount to open a portfolio</p></div><div><span>REWARDS</span><strong>PLANNED</strong><p>BaseStock token rewards are not live</p></div>';
 portfolio.insertAdjacentHTML('beforebegin','<section class="shell editorial"><p class="eyebrow">INVESTING, WITHOUT THE CLUTTER</p><h2>A single place for<br><span>your next investment.</span></h2><div class="editorial-grid"><article><span class="feature-icon">↗</span><h3>Start with what you know.</h3><p>Discover a basket of recognizable companies, represented by tokens on Base.</p><a href="#portfolio">Meet the portfolio →</a></article><article><span class="feature-icon">⊞</span><h3>See the whole picture.</h3><p>Track your indexed holdings, token balances, and portfolio value in a dedicated workspace.</p><a href="#holdings">Open your dashboard →</a></article><article><span class="feature-icon">◎</span><h3>Stay in the driver’s seat.</h3><p>Approve transactions from your wallet. Choose an available asset and the amount to withdraw.</p><a href="#withdraw">Manage your holdings →</a></article></div></section>');
 document.querySelector('.strategy-heading .eyebrow').textContent = 'MEET THE STRATEGY';
 document.querySelector('.trade-heading h2').textContent = 'Move your money.';
@@ -169,7 +171,7 @@ document.querySelector('.nav > .wallet-button').before(topSocial);
 // Keep the public-facing experience focused.
 document.querySelector('.preview-bar').remove();
 document.querySelector('.editorial').remove();
-document.querySelector('.platform-strip').remove();
+// Keep the protocol metric strip in the index-style overview.
 document.querySelector('.art-caption').remove();
 document.querySelector('.account-guide').remove();
 document.querySelector('.afterbook-card').remove();
@@ -194,7 +196,7 @@ rewardDetails.innerHTML = '<summary>Explore the 10-stock reward basket <span>+</
 rewardStocks.before(rewardDetails);
 rewardDetails.append(rewardStocks);
 document.querySelector('.reward-stocks-link').addEventListener('click', () => { rewardDetails.open = true; });
-document.querySelector('footer').innerHTML = '<div class="footer-brand"><strong>BaseStock10</strong><p>Tokenized stock portfolios on Base.</p></div><div class="footer-links"><a href="#faq">Help</a><a href="https://x.com/BaseStock10" target="_blank" rel="noreferrer">𝕏 Community</a></div><div class="footer-legal">Base mainnet · Not investment advice. Tokenized stocks involve market and smart-contract risk. BaseStock token rewards are not live.</div>';
+document.querySelector('footer').innerHTML = '<div class="footer-brand"><strong>BaseStock10</strong><p>Tokenized stock portfolios on Base.</p></div><div class="footer-links"><a href="#faq">Help</a><a href="https://x.com/BaseStock10" target="_blank" rel="noreferrer">𝕏 Community</a></div><div class="footer-legal">Base mainnet · Not investment advice. Tokenized stocks involve market and smart-contract risk. BaseStock token rewards are not live.</div><section class="buy-launch" aria-label="BaseStock10 launch information"><p>Eligible BaseStock10 holders may receive ten-stock rewards.</p><small>Reward eligibility, holding requirements, and distribution rules will be announced before launch.</small><button type="button" disabled aria-label="Buy BaseStock10 link coming soon">BUY BASESTOCK10 — SOON</button></section>';
 themeButton.type = 'button';
 themeButton.className = 'theme-toggle';
 document.querySelector('.nav > .wallet-button').before(themeButton);
@@ -263,7 +265,6 @@ document.querySelector('.key-explainer h2').textContent = 'Your private keys sta
 document.querySelector('.key-explainer > div:last-child > p:first-child').textContent = 'We never ask for your seed phrase or wallet private key. You connect your wallet and approve the transactions and permissions needed to use Glider.';
 document.querySelector('.rewards-teaser h2').innerHTML = 'Introducing<br>BaseStock10 Token.';
 document.querySelector('.rewards-teaser .button').textContent = 'Explore BaseStock10 Token ↗';
-document.querySelector('footer').insertAdjacentHTML('beforeend', '<details class="ca-disclosure"><summary>CA announcement <span>+</span></summary><div><img src="https://feel.cash/assets/_charms/assets/images/feel-mark.ec4197c94f8e816521a6d2f2d7f7fb6d.webp" alt="Feel.cash" /><p><b>Contract address at 9 AM EST today.</b><small>The verified BaseStock10 contract address will be published on Feel.cash.</small></p></div></details>');
 const depositForm = document.querySelector('.deposit-panel');
 const withdrawalForm = document.querySelector('.withdraw-panel');
 document.querySelector('.trade-heading .eyebrow').remove();
@@ -339,5 +340,12 @@ flexibleCard.addEventListener('pointerleave', resetCardTilt);
 flexibleCard.addEventListener('pointercancel', resetCardTilt);
 window.addEventListener('blur', resetCardTilt);
 tiltPreference.addEventListener('change', resetCardTilt);
+// Final local index-style copy pass. This runs after the existing presentation layers.
+hero.querySelector('h1').innerHTML = 'One portfolio.<br><em>Eight on-chain stocks.</em>';
+hero.querySelector('.eyebrow').textContent = 'BASESTOCK10 · BASE MAINNET';
+hero.querySelector('.lede').textContent = 'Fund one personal Glider portfolio with USDC, then follow the Bitwise Mag7x basket from your Base wallet.';
+hero.querySelector('.hero-actions').innerHTML = '<a class="button" href="#deposit">OPEN PORTFOLIO →</a><a class="text-link" href="#portfolio">VIEW THE BASKET</a>';
+hero.querySelector('.network').textContent = 'You control your wallet and approve every transaction.';
+intro.innerHTML = '<div><span>STOCK BASKET</span><strong>8</strong><p>Tokenized stocks in the current strategy</p></div><div><span>CAMPAIGN INCENTIVE</span><strong>10 <small>% APR</small></strong><p>For eligible holdings; campaign terms apply</p></div><div><span>STARTING AMOUNT</span><strong>25 <small>USDC</small></strong><p>Minimum amount to open a portfolio</p></div><div><span>REWARDS</span><strong>PLANNED</strong><p>BaseStock token rewards are not live</p></div>';
 routeHash();
 })();
