@@ -357,5 +357,6 @@ document.querySelector('.rewards-teaser p').textContent = 'BaseStock10 is live o
 document.querySelector('.rewards .plan-note').textContent = 'BaseStock10 is live on Base. Reward rules and eligibility requirements can change as the program evolves.';
 document.querySelector('.footer-legal').innerHTML = `Base mainnet · <a href="${baseStockTokenUrl}" target="_blank" rel="noreferrer">BaseStock10 contract: 0x5127…fee1 ↗</a> · Not investment advice.`;
 document.querySelector('.buy-launch').innerHTML = `<p>Eligible BaseStock10 holders can receive ten-stock rewards.</p><small>Over $2,100 worth of stock rewards has been distributed to date. Eligibility and distribution rules can change.</small><a class="contract-link" href="${baseStockTokenUrl}" target="_blank" rel="noreferrer">VIEW CONTRACT ↗</a><a class="buy-token" href="https://kyberswap.com/swap/base/usdc-to-0x51276d0322421b9a903132b3867bcda2587cfee1" target="_blank" rel="noreferrer">BUY BASESTOCK10 ↗</a>`;
+intro.lastElementChild.innerHTML = '<span>STOCK REWARDS DISTRIBUTED</span><strong>$2.1K</strong><p>Worth of stock rewards distributed to date</p>';
 routeHash();
 })();
